@@ -15,7 +15,7 @@ public class UserService {
 
     public UserResponse register(RegisterRequest request) {
         if (repository.existsByEmail(request.email())) {
-            throw new IllegalArgumentException("Email already registered");
+            throw new EmailAlreadyExistsException(request.email());
         }
         User user = new User();
         user.setEmail(request.email());
