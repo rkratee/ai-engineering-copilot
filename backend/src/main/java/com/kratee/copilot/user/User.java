@@ -2,6 +2,12 @@ package com.kratee.copilot.user;
 import jakarta.persistence.*;
 import java.time.Instant;
 
+import lombok.*;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "users")
 public class User {
@@ -16,6 +22,4 @@ public class User {
     private String passwordHash;
 
     private Instant createdAt = Instant.now();
-
-    // generate getters and setters (Alt+Insert in IntelliJ)
 }
