@@ -4,6 +4,8 @@ An AI platform for engineering teams: a knowledge assistant, an automated pull r
 
 **Status:** in progress (started Nov 2026)
 
+See [docs/architecture.md](docs/architecture.md) for the design and trade-offs.
+
 ## Problem
 
 Engineering teams lose time in three ways:
@@ -39,10 +41,23 @@ One web platform with three modules:
 
 ## Run locally
 
-Backend (from the `backend` folder):
+**Prerequisites:** Java 17+ (project targets the version in `pom.xml`), Node.js (LTS), PostgreSQL 18.
 
-```
-mvn spring-boot:run
-```
+**1. Database:** create a database named `copilot`.
 
+**2. Environment variables** (never commit these):
+- `DB_PASSWORD`: your PostgreSQL password
+- `JWT_SECRET`: a random secret of at least 32 bytes
+
+**3. Backend** (from the `backend` folder):
+```
+.\mvnw spring-boot:run
+```
 Health check: http://localhost:8080/api/health
+
+**4. Frontend** (from the `frontend` folder, in a second terminal):
+```
+npm install
+npm run dev
+```
+Open http://localhost:5173. The dev server forwards `/api` calls to the backend on port 8080.
