@@ -1,5 +1,7 @@
 package com.kratee.copilot.common;
 
+import com.kratee.copilot.document.DocumentNotFoundException;
+import com.kratee.copilot.document.InvalidFileException;
 import com.kratee.copilot.user.EmailAlreadyExistsException;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,5 +31,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<Map<String, String>> handleBadLogin(InvalidCredentialsException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(InvalidFileException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidFile(InvalidFileException ex) {
+        return ResponseEntity.badRequest().body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(DocumentNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNotFound(DocumentNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(org.springframework.web.multipart.MaxUploadSizeExceededException.class)
+    public ResponseEntity<Map<String, String>> handleTooLarge() {
+        return ResponseEntity.status(413).body(Map.of("error", "File too large (max 10 MB)"));
     }
 }
